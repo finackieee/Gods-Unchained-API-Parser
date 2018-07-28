@@ -576,4 +576,21 @@
  "'Total Perfect Shadow: 21'",
  "'Total Perfect Gold: 4'",
  "'Total Perfect Diamond: 1'",
- "'Total Zero Purity: 293'"]
+ "'Total Zero Purity: 293'"]["'Time: 2018-07-28 17:22:12.078472'",
+ "('Address with pure diamond: 0x5a36195bcED30B53d8101DC3BcbD514aE194a6e2 "
+ "Card: '\n"
+ " '297')",
+ "'Total Cards: 321920'",
+ "'Total Commons: 219122'",
+ "'Total Rares: 68293'",
+ "'Total Epics: 12539'",
+ "'Total Legendaries: 21966'",
+ "'Total Plain: 301501'",
+ "'Total Shadow: 16384'",
+ "'Total Gold: 3414'",
+ "'Total Diamond: 621'",
+ "'Total Perfect Plain: 279'",
+ "'Total Perfect Shadow: 21'",
+ "'Total Perfect Gold: 4'",
+ "'Total Perfect Diamond: 1'",
+ "'Total Zero Purity: 294'"]
