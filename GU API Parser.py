@@ -11,7 +11,7 @@ userAddress = input('Enter Ethereum Address: ')
 # 0xb6bE4De7F37baE20085d830A28982bE8aD19052b # Saltz
 # 0xE4a8dfcA175cDcA4Ae370f5b7aaff24bD1C9C8eF # borovan - bought 100 shiny
 
-apiUrl = 'https://api.godsunchained.com/user/' + userAddress + '/card/opened'
+apiUrl = 'https://api.godsunchained.com/user/' + userAddress + '/card'
 
 if userAddress == '':
     apiUrl = 'https://api.godsunchained.com/card'
