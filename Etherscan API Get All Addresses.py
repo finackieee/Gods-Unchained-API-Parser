@@ -13,22 +13,38 @@ contractAddressList = ['0x0777F76D195795268388789343068e4fCd286919', '0x08dBf4f9
                         '0x000983ba1A675327F0940b56c2d49CD9c042DFBF']
 listOfUniqueAddresses = []
 contractsChecked = 0
+rarePackTotalETH = 0.0
+epicPackTotalETH = 0.0
+legendaryPackTotalETH = 0.0
+shinyPackTotalETH = 0.0
 
 for i in contractAddressList:
-    apiUrl = 'http://api.etherscan.io/api?module=account&action=txlist&address=' + i + '&startblock=0&endblock=6050000&sort=asc'
+    apiUrl = 'http://api.etherscan.io/api?module=account&action=txlist&address=' + i + '&sort=asc'
 
     print('Fetching Contract Info...')
     with urllib.request.urlopen(apiUrl) as url:
         transactionHistory = json.load(url)
-    print('Done.')
 
-    for transaction in transactionHistory['result']:
-        if transaction['from'] not in listOfUniqueAddresses:
+    for transaction in transactionHistory['result']: # Iterates through all transactions.
+        if transaction['from'] not in listOfUniqueAddresses: # If the 'from' address is not in the list of unique addresses, add it.
             listOfUniqueAddresses.append(transaction['from'])
+        
+        aList = contractAddressList # Makes the following block shorter.
+        if i in (aList[0], aList[1], aList[2], aList[3]):
+            rarePackTotalETH = rarePackTotalETH + float(transaction['value']) / 1000000000000000000
+        if i in (aList[4], aList[5], aList[6], aList[7]):
+            epicPackTotalETH = epicPackTotalETH + float(transaction['value']) / 1000000000000000000
+        if i in (aList[8], aList[9], aList[10], aList[11]):
+            legendaryPackTotalETH = legendaryPackTotalETH + float(transaction['value']) / 1000000000000000000
+        if i in (aList[12], aList[13], aList[14], aList[15]):
+            shinyPackTotalETH = shinyPackTotalETH + float(transaction['value']) / 1000000000000000000
 
+    comp = 0.9225 # This is used to compensate for the discount pricing.
     contractsChecked += 1
-    print('Checked ' + str(contractsChecked) + ' contracts.') 
+    print('Checked ' + str(contractsChecked) + ' contracts.')
 print('Total unique addresses: ' + str(len(listOfUniqueAddresses)))
+print('Total Rare: ' + str(int(rarePackTotalETH * comp / 0.012)) + ' Total Epic: ' + str(int(epicPackTotalETH * comp / 0.075)) + ' Total Legendary: ' + str(int(legendaryPackTotalETH * comp / 0.112)) + ' Total Shiny: ' + str(int(shinyPackTotalETH * comp / 1)))
+print('Total Ether: ' + str(int((rarePackTotalETH + epicPackTotalETH + legendaryPackTotalETH + shinyPackTotalETH) * comp)))
 
 # iterations = 0
 # firstPhoenix = 0
