@@ -2,27 +2,35 @@ import urllib.request, json, pprint, sys, time
 from collections import defaultdict
 from datetime import datetime
 
-userAddress = input('Enter Ethereum Address: ')
 # 0x69b22E50dd4BE4cdfCED71F8E3aaa8a4871a1c67 # Primary
 # 0x212B738551cfA71bEABEE191dE20f5C0783F582b # Alt
 # 0x0008d343091EF8BD3EFA730F6aAE5A26a285C7a2 # Address with most cards.
 # 0xe8ac0cf3a9cea74e7653a863499e8e661440be13 # Most legendary packs
-# 0x48E809844ff6E17d5e2043d10a85bCBbB71F0FaE # Danny#1908
-# 0xb6bE4De7F37baE20085d830A28982bE8aD19052b # Saltz
-# 0xE4a8dfcA175cDcA4Ae370f5b7aaff24bD1C9C8eF # borovan - bought 100 shiny
+# 0xE4a8dfcA175cDcA4Ae370f5b7aaff24bD1C9C8eF # borovan
 
-apiUrl = 'https://api.godsunchained.com/user/' + userAddress + '/card/opened'
+def fetchJSON(address = ''):
+    apiUrl = 'http://api.godsunchained.com/user/' + str(address) + '/pack'
+
+    if address == '':
+        apiUrl = 'http://api.godsunchained.com/card'
+    if address == 'http://pastebin.com/raw/e5rv9mep':
+        apiUrl = 'http://pastebin.com/raw/e5rv9mep'
+
+    print('Fetching JSON...')
+    with urllib.request.urlopen(apiUrl) as url:
+        return json.load(url)
+    print('Done.')
+
+try:
+    userAddress = input('Enter Ethereum Address: ')
+except SyntaxError:
+    userAddress = ''
 
 if userAddress == '':
-    apiUrl = 'https://api.godsunchained.com/card'
     cycles = 0
     while True:
-        print('Fetching...')
-        with urllib.request.urlopen(apiUrl) as url:
-            userInfo = json.load(url)
-        with urllib.request.urlopen("https://pastebin.com/raw/e5rv9mep") as url:
-            cardInfo = json.load(url)
-        print('Done.')
+        userInfo = fetchJSON()
+        cardInfo = fetchJSON('http://pastebin.com/raw/e5rv9mep')
 
         outputList = []
         totalCommons = 0
@@ -74,7 +82,8 @@ if userAddress == '':
                 totalPerfectGold += 1
             if card['purity'] == 3999:
                 totalPerfectDiamond += 1
-                outputList.append(pprint.pformat(('Address with pure diamond: ' + str(card['user']) + ' Card: ' + str(card['proto'])))) # TODO: Create a function that takes card proto and returns its name.
+                outputList.append(pprint.pformat(('Address with pure diamond: ' + str(card['user']) + ' Card: ' + str(card['proto'])))) 
+                # TODO: Create a function that takes card proto and returns its name.
             
             if card['proto'] == 380:
                 firstPhoenix += 1
@@ -101,12 +110,8 @@ if userAddress == '':
         time.sleep(3600)
 
 
-print('Fetching...')
-with urllib.request.urlopen(apiUrl) as url:
-   userInfo = json.load(url)
-with urllib.request.urlopen("https://pastebin.com/raw/e5rv9mep") as url:
-   cardInfo = json.load(url)
-print('Done.')
+userInfo = fetchJSON(userAddress)
+cardInfo = fetchJSON('https://pastebin.com/raw/e5rv9mep')
 
 n = 0
 rarePacks = 0
@@ -138,7 +143,8 @@ for pack in userInfo:
 
     totalPacks += 1
     n += 1
-print('Total packs: ' + str(totalPacks) + ' Total rare packs: ' + str(rarePacks) + ' Total epic packs: ' + str(epicPacks) + ' Total legendary packs: ' + str(legendPacks) + ' Total shiny packs: ' + str(shinyPacks))
+print('Total packs: ' + str(totalPacks) + ' Total rare packs: ' + str(rarePacks) + ' Total epic packs: ' + str(epicPacks) +
+     ' Total legendary packs: ' + str(legendPacks) + ' Total shiny packs: ' + str(shinyPacks))
 
 while True:
 
