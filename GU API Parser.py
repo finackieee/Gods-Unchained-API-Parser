@@ -21,6 +21,18 @@ def fetchJSON(address = ''):
         return json.load(url)
     print('Done.')
 
+cardInfo = fetchJSON('http://pastebin.com/raw/e5rv9mep')
+
+def getRarity(proto):
+    for card in cardInfo:
+        if card['rarity'] == proto:
+            return card['rarity']
+
+def getName(proto):
+    for card in cardInfo:
+        if card['GLOBALID'] == proto:
+            return card['name']
+
 try:
     userAddress = input('Enter Ethereum Address: ')
 except SyntaxError:
@@ -30,7 +42,6 @@ if userAddress == '':
     cycles = 0
     while True:
         userInfo = fetchJSON()
-        cardInfo = fetchJSON('http://pastebin.com/raw/e5rv9mep')
 
         outputList = []
         totalCommons = 0
@@ -82,27 +93,18 @@ if userAddress == '':
                 totalPerfectGold += 1
             if card['purity'] == 3999:
                 totalPerfectDiamond += 1
-                outputList.append(pprint.pformat(('Address with pure diamond: ' + str(card['user']) + ' Card: ' + str(card['proto'])))) 
+                # outputList.append(pprint.pformat(('Address with pure diamond: ' + str(card['user']) + ' Card: ' + str(card['proto'])))) 
                 # TODO: Create a function that takes card proto and returns its name.
             
             if card['proto'] == 380:
                 firstPhoenix += 1
                 print(card['purity'])
 
-        outputList.append(pprint.pformat('Total Cards: ' + str(len(userInfo))))
-        outputList.append(pprint.pformat('Total Commons: ' + str(totalCommons)))
-        outputList.append(pprint.pformat('Total Rares: ' + str(totalRares)))
-        outputList.append(pprint.pformat('Total Epics: ' + str(totalEpics)))
-        outputList.append(pprint.pformat('Total Legendaries: ' + str(totalLegendaries)))
-        outputList.append(pprint.pformat('Total Plain: ' + str(totalPlain)))
-        outputList.append(pprint.pformat('Total Shadow: ' + str(totalShadow)))
-        outputList.append(pprint.pformat('Total Gold: ' + str(totalGold)))
-        outputList.append(pprint.pformat('Total Diamond: ' + str(totalDiamond)))
-        outputList.append(pprint.pformat('Total Perfect Plain: ' + str(totalPerfectPlain)))
-        outputList.append(pprint.pformat('Total Perfect Shadow: ' + str(totalPerfectShadow)))
-        outputList.append(pprint.pformat('Total Perfect Gold: ' + str(totalPerfectGold)))
-        outputList.append(pprint.pformat('Total Perfect Diamond: ' + str(totalPerfectDiamond)))
-        outputList.append(pprint.pformat('Total Zero Purity: ' + str(totalZeroPurity)))
+        outputList.append(pprint.pformat('Total Cards: ' + str(len(userInfo + ' Total Commons: ' + str(totalCommons) + ' Total Rares: ' + str(totalRares)
+         + ' Total Epics: ' + str(totalEpics) + ' Total Legendaries: ' + str(totalLegendaries) + ' Total Plain: ' + str(totalPlain) + ' Total Shadow: ' 
+         + str(totalShadow) + ' Total Gold: ' + str(totalGold) + ' Total Diamond: ' + str(totalDiamond) + ' Total Perfect Plain: ' + str(totalPerfectPlain) 
+         + ' Total Perfect Shadow: ' + str(totalPerfectShadow) + ' Total Perfect Gold: ' + str(totalPerfectGold) + ' Total Perfect Diamond: ' 
+         + str(totalPerfectDiamond + 'Total Zero Purity: ' + str(totalZeroPurity))))))
 
         open("allCardsCount.txt", "a").write(pprint.pformat(outputList))
         cycles += 1
@@ -111,7 +113,6 @@ if userAddress == '':
 
 
 userInfo = fetchJSON(userAddress)
-cardInfo = fetchJSON('https://pastebin.com/raw/e5rv9mep')
 
 n = 0
 rarePacks = 0

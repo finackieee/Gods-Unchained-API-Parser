@@ -29,7 +29,7 @@ for i in contractAddressList:
         if transaction['from'] not in listOfUniqueAddresses: # If the 'from' address is not in the list of unique addresses, add it.
             listOfUniqueAddresses.append(transaction['from'])
         
-        aList = contractAddressList # Makes the following block shorter.
+        aList = contractAddressList # Makes the following section shorter.
         if i in (aList[0], aList[1], aList[2], aList[3]):
             rarePackTotalETH = rarePackTotalETH + float(transaction['value']) / 1000000000000000000
         if i in (aList[4], aList[5], aList[6], aList[7]):
